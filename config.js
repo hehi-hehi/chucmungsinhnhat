@@ -8,7 +8,7 @@ const CONFIG = {
   ngaySinhNhat: new Date(2026, 10, 15, 0, 0, 0), // 15/11/2026
 
   // Lời chúc
-  loiChuc: "Mỗi khoảnh khắc bên bạn đều là một món quà tuyệt vời 🎁",
+  loiChuc: "Mỗi khoảnh khắc bên em đều là món quà 🎁",
 
   // Màu chủ đề (gradient nền)
   mauNen1: "#1a0533",
