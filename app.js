@@ -285,8 +285,6 @@ function moHopQua() {
 
 function hienManChucMung() {
   trangThai = 'chucmung';
-  const elTen = document.getElementById('ten-special');
-  if (elTen) elTen.textContent = CONFIG.tenNguoiNhan;
   manChucMung.style.display       = 'flex';
   manChucMung.style.opacity       = '1';
   manChucMung.style.pointerEvents = 'auto';
