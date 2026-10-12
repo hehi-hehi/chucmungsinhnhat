@@ -133,9 +133,9 @@ body {
   letter-spacing: 0.02em;
   text-shadow: none;
   filter: drop-shadow(0 0 18px rgba(255,150,180,0.25));
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* Bỏ white-space: nowrap để wrap đúng */
+  white-space: normal;
+  word-break: break-word;
 }
 
 /* ===== COUNTDOWN ===== */
