@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thiệp Sinh Nhật Đặc Biệt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Splash screen — bấm để vào + phát nhạc -->
+  <div class="splash" id="splash">
+    <div class="splash-noi-dung">
+      <p class="splash-label">✦ THIỆP SINH NHẬT ✦</p>
+      <div class="splash-icon">🎂</div>
+      <button class="splash-btn" id="splash-btn">
+        <span>Mở thiệp ngay</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Nhạc nền -->
+  <audio id="nhac-nen" preload="auto"></audio>
+
+  <!-- Music Player thu gọn + playlist popup -->
+  <div class="music-player" id="music-player">
+
+    <!-- Popup playlist — ẩn mặc định -->
+    <div class="mp-playlist" id="mp-playlist">
+      <p class="mp-playlist-title">🎵 Chọn bài nhạc</p>
+      <div class="mp-playlist-list" id="mp-playlist-list">
+        <!-- JS tạo động -->
+      </div>
+    </div>
+
+    <!-- Hàng chính: icon nhạc + tên bài + nút -->
+    <div class="mp-main-row">
+
+      <!-- Icon nhạc — bấm bung playlist -->
+      <button class="mp-btn-icon-nhac" id="mp-btn-icon-nhac" onclick="togglePlaylist()" aria-label="Chọn bài">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
+      </button>
+
+      <!-- Tên bài -->
+      <p class="mp-ten-bai" id="mp-ten-bai">Happy Birthday</p>
+
+      <!-- Prev / Play / Next -->
+      <div class="mp-controls-inline">
+        <button class="mp-btn mp-btn-skip-sm" onclick="prevBai()" aria-label="Bài trước">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+        </button>
+        <button class="mp-btn mp-btn-play" id="mp-btn-play" onclick="toggleNhac()" aria-label="Play/Pause">
+          <svg class="mp-icon-play"  viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="mp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="mp-btn mp-btn-skip-sm" onclick="nextBai()" aria-label="Bài tiếp">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 4V8l-5.5 4zM16 6h2v12h-2z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Thanh tiến trình -->
+    <div class="mp-progress-wrap">
+      <span class="mp-time" id="mp-time-hien">0:00</span>
+      <div class="mp-progress-bar" id="mp-progress-bar" onclick="tuaBai(event)">
+        <div class="mp-progress-fill" id="mp-progress-fill"></div>
+        <div class="mp-progress-dot"  id="mp-progress-dot"></div>
+      </div>
+      <span class="mp-time" id="mp-time-tong">0:00</span>
+    </div>
+
+  </div>
+
+  <!-- Hiệu ứng hạt lấp lánh -->
+  <canvas id="canvas-particles"></canvas>
+
+  <!-- Nội dung chính -->
+  <main class="container">
+
+    <!-- Tiêu đề nhỏ trên -->
+    <p class="label-top">✦ NGÀY ĐẶC BIỆT ✦</p>
+
+    <!-- Tiêu đề lớn -->
+    <h1 class="tieu-de">
+      Ngày Đặc Biệt Của<br />
+      <em id="ten-nguoi-nhan">Em</em>
+    </h1>
+
+    <!-- Lời nhắn nhỏ -->
+    <p class="loi-nhan" id="loi-chuc">Mỗi khoảnh khắc bên bạn đều là một món quà tuyệt vời 🎁</p>
+
+    <!-- Nút -->
+    <button class="nut-cho" id="nut-cho" onclick="hienManHopQua()">
+      🎁 Mở Hộp Quà
+    </button>
+
+
+
+  </main>
+
+  <!-- Màn hình hộp quà trung gian -->
+  <section class="man-hop-qua" id="man-hop-qua">
+    <canvas class="canvas-hoa-hopqua" id="canvas-hoa-hopqua"></canvas>
+    <button class="nut-quay-lai" onclick="quayLaiTrang1()" aria-label="Quay lại">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Vòng tròn gradient nền -->
+        <circle cx="18" cy="18" r="17" stroke="url(#grad1)" stroke-width="1.5" fill="url(#fill1)" />
+        <!-- Mũi tên trái đẹp -->
+        <path d="M21 11 L13 18 L21 25" stroke="url(#grad2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <defs>
+          <linearGradient id="grad1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f8c8d4"/>
+            <stop offset="100%" stop-color="#c89ef8"/>
+          </linearGradient>
+          <radialGradient id="fill1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f8c8d4" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#8b3fa8" stop-opacity="0.08"/>
+          </radialGradient>
+          <linearGradient id="grad2" x1="13" y1="11" x2="21" y2="25" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#fde8ef"/>
+            <stop offset="100%" stop-color="#e0aaff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </button>
+    <p class="label-hop-qua">✦ CÓ MỘT THỨ GÌ ĐÓ DÀNH CHO BẠN ✦</p>
+    <div class="hop-qua-wrap" id="hop-qua-wrap" onclick="moHopQua()">
+      <div class="hop-qua" id="hop-qua">
+        <!-- Nắp hộp -->
+        <div class="nap-hop">
+          <div class="no-nap"></div>
+        </div>
+        <!-- Thân hộp -->
+        <div class="than-hop">
+          <div class="day-hop"></div>
+        </div>
+        <!-- Ánh sáng glow -->
+        <div class="anh-sang"></div>
+      </div>
+    </div>
+    <p class="goi-y-mo">🎀 Nhấp để mở hộp quà 🎀</p>
+  </section>
+
+  <!-- Màn hình "Your Special Day" sau khi mở quà -->
+  <section class="man-hinh-chuc-mung" id="man-chuc-mung">
+    <button class="nut-quay-lai" onclick="quayLaiTrang1()" aria-label="Quay lại">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="17" stroke="url(#grad1b)" stroke-width="1.5" fill="url(#fill1b)" />
+        <path d="M21 11 L13 18 L21 25" stroke="url(#grad2b)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <defs>
+          <linearGradient id="grad1b" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f8c8d4"/>
+            <stop offset="100%" stop-color="#c89ef8"/>
+          </linearGradient>
+          <radialGradient id="fill1b" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f8c8d4" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#8b3fa8" stop-opacity="0.08"/>
+          </radialGradient>
+          <linearGradient id="grad2b" x1="13" y1="11" x2="21" y2="25" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#fde8ef"/>
+            <stop offset="100%" stop-color="#e0aaff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </button>
+
+    <!-- Canvas bông hoa + chấm tròn rơi -->
+    <canvas id="canvas-hoa"></canvas>
+
+    <!-- Polaroid rơi — JS tạo động -->
+    <div class="polaroid-container" id="polaroid-container"></div>
+
+    <!-- Nội dung trung tâm -->
+    <div class="noi-dung-special-day">
+      <p class="label-special">✦ MỘT ĐIỀU ANH MUỐN GỬI ĐẾN EM ✦</p>
+      <h1 class="tieu-de-special">
+        Thế Gian Vạn Điều Đẹp<br/>
+        <em id="ten-special"> Không Đẹp Bằng Em </em>
+      </h1>
+      <p class="mo-ta-special"></p>
+      <div class="tim-container">
+        <span class="tim t1">♡</span>
+        <span class="tim t2">♡</span>
+        <span class="tim t3">♡</span>
+      </div>
+      <!-- Nút đọc thư -->
+      <button class="nut-doc-thu" id="nut-doc-thu" onclick="hienThu()">
+        <span>Đọc thư của tôi</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Màn hình lá thư -->
+  <section class="man-la-thu" id="man-la-thu">
+    <canvas class="canvas-hoa-thu" id="canvas-hoa-thu"></canvas>
+    <button class="nut-quay-lai" onclick="anThu()" aria-label="Quay lại">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="17" stroke="url(#gThu1)" stroke-width="1.5" fill="url(#gThuFill)"/>
+        <path d="M21 11 L13 18 L21 25" stroke="url(#gThu2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <defs>
+          <linearGradient id="gThu1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f8c8d4"/><stop offset="100%" stop-color="#c89ef8"/>
+          </linearGradient>
+          <radialGradient id="gThuFill" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f8c8d4" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#8b3fa8" stop-opacity="0.08"/>
+          </radialGradient>
+          <linearGradient id="gThu2" x1="13" y1="11" x2="21" y2="25" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#fde8ef"/><stop offset="100%" stop-color="#e0aaff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </button>
+    <div class="la-thu-noi-dung">
+      <p class="la-thu-label">✦ LÁ THƯ DÀNH CHO BẠN ✦</p>
+      <div class="la-thu-phong-bi">💌</div>
+      <h2 class="la-thu-tinh" id="la-thu-ten">Gửi Bé Yêu,</h2>
+      <div class="la-thu-van-ban" id="la-thu-van-ban"><span class="con-tro"></span></div>
+      <p class="la-thu-ky" id="la-thu-ky">💌💌💌💕💕💕</p>
+    </div>
+  </section>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+📸 HƯỚNG DẪN ĐẶT ẢNH
+══════════════════════════════
+1. Chép ảnh vào thư mục này (assets/images/)
+2. Đặt tên đơn giản, không dấu: anh1.jpg, anh2.jpg...
+3. Mở config.js và thêm vào mảng danhSachAnh:
+   danhSachAnh: [
+     "assets/images/anh1.jpg",
+     "assets/images/anh2.jpg",
+     ...
+   ]
+4. F5 trình duyệt là hiện ảnh trong polaroid!
+
+Định dạng hỗ trợ: .jpg .jpeg .png .webp
+Kích thước khuyến nghị: vuông hoặc gần vuông

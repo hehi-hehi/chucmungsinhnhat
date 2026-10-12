@@ -1,0 +1,19 @@
+🎵 HƯỚNG DẪN ĐẶT NHẠC
+══════════════════════════════════
+
+1. Chép file nhạc vào thư mục này (assets/music/)
+   Ví dụ: assets/music/nhac.mp3
+
+2. Mở file config.js và sửa dòng nhacNen:
+   nhacNen: "assets/music/TEN_FILE_NHAC.mp3"
+
+3. Các định dạng hỗ trợ:
+   ✅ .mp3  (khuyến nghị)
+   ✅ .ogg
+   ✅ .wav  (dung lượng lớn)
+   ✅ .m4a
+
+4. Lưu ý:
+   - Nên dùng file MP3, dung lượng < 10MB cho load nhanh
+   - Tên file không nên có dấu tiếng Việt hoặc khoảng trắng
+     VD: happy-birthday.mp3, nhac-sinh-nhat.mp3
